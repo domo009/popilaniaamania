@@ -3499,7 +3499,7 @@ app.get("/RKnUB922z6Mf4HDwg3EZ", (req, res) => { // loading 2:
 });
 
 app.get("/XcX22z6Mf4HDwg3EZ", (req, res) => { // loading 2:
-  res.render("cocowadd");
+  res.render("cocowadd", { pass: req.session.username });
 });
 
 app.get("/LGknmeM9HwWUWSutj6mJ", (req, res) => { // loading 3:
